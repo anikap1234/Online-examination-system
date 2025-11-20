@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Add Question — {{ quiz_id }}{% endblock %}
+
+{% block content %}
+<div class="card center" style="max-width:800px;margin:auto">
+  <h2>Add question to {{ quiz_id }}</h2>
+
+  <form method="POST" action="{{ url_for('add_question', quiz_id=quiz_id) }}">
+    <label>Question</label>
+    <textarea name="q" required></textarea>
+
+    <label>Option 1</label>
+    <input type="text" name="o1">
+
+    <label>Option 2</label>
+    <input type="text" name="o2">
+
+    <label>Option 3</label>
+    <input type="text" name="o3">
+
+    <label>Option 4</label>
+    <input type="text" name="o4">
+
+    <label>Answer</label>
+    <input type="text" name="ans" required>
+
+    <label>Marks</label>
+    <input type="number" name="marks" min="1" value="1" required>
+
+    <div class="actions">
+      <button class="btn" type="submit">Add Question</button>
+      <a class="btn ghost" href="{{ url_for('manage_quiz', quiz_id=quiz_id) }}">Back</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

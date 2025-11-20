@@ -1,0 +1,15 @@
+<!-- contact.html content -->
+ {% extends "base.html" %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<div class="card" style="max-width:900px;margin:0 auto">
+  <h3>Contact</h3>
+  <p class="muted">For issues, contact the admin.</p>
+  <form onsubmit="alert('Message sent (demo)');return false;">
+    <label>Name</label><input required/>
+    <label>Email</label><input type="email" required/>
+    <label>Message</label><textarea rows="4" required></textarea>
+    <div style="margin-top:10px"><button class="btn" type="submit">Send</button></div>
+  </form>
+</div>
+{% endblock %}

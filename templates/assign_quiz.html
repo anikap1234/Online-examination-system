@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Assign Quiz — OES{% endblock %}
+
+{% block content %}
+<h2 class="page-title">Assign Quiz to Student</h2>
+
+{% if message %}
+<div class="alert alert-success">{{ message }}</div>
+{% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, msg in messages %}
+      <div class="alert alert-{{ category }}">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<form action="{{ url_for('staff_assign_quiz') }}" method="POST" class="form-card">
+
+    <label>Student:</label>
+    <select name="student_id" required>
+        <option value="">Select Student</option>
+        {% for s in students %}
+        <option value="{{ s[0] }}">{{ s[1] }} ({{ s[0] }})</option>
+        {% endfor %}
+    </select>
+
+    <label>Quiz:</label>
+    <select name="quiz_id" required>
+        <option value="">Select Quiz</option>
+        {% for q in quizzes %}
+        <option value="{{ q[0] }}">{{ q[1] }} ({{ q[0] }})</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn">Assign Quiz</button>
+</form>
+
+<style>
+.form-card {
+    max-width: 450px; padding: 25px; background: white;
+    border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    display: flex; flex-direction: column; gap: 15px;
+}
+select, input, button {
+    padding: 10px; font-size: 16px;
+}
+.page-title { font-size: 28px; margin-bottom: 20px; }
+</style>
+
+{% endblock %}

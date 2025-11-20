@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Login — OES{% endblock %}
+
+{% block content %}
+<div class="grid">
+  <div class="span-6">
+    <div class="card">
+      <h2>Sign in</h2>
+      <p class="muted">Use your registered ID and password.</p>
+
+      <form method="POST" action="{{ url_for('login') }}">
+        <label>User ID</label>
+        <input type="text" name="user_id" required placeholder="e.g. 1CS21CS001 or STF001">
+
+        <label>Password</label>
+        <input type="password" name="password" required placeholder="Your password">
+
+        <label>Role</label>
+        <select name="role" required>
+          <option value="student">Student</option>
+          <option value="staff">Staff</option>
+        </select>
+
+        <div class="actions">
+          <button class="btn" type="submit">Login</button>
+          <a href="{{ url_for('signup') }}" class="btn ghost">Create account</a>
+        </div>
+
+        {% if msg %}
+          <div class="form-error">{{ msg }}</div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  <div class="span-6">
+    <div class="card center">
+      <h3>Need an account?</h3>
+      <p class="muted">Students and staff must register first.</p>
+      <a class="btn" href="{{ url_for('signup') }}">Register</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Quiz Instructions</title>
+<style>
+:root{--bg:#08101a;--card:#0e1620;--accent:#5ee0ff;--muted:#9aa6b2}
+body{margin:0;font-family:Inter,Arial;background:var(--bg);color:#e6f7ff}
+.container{max-width:900px;margin:40px auto;padding:18px}
+.card{background:var(--card);padding:20px;border-radius:12px}
+.rules{color:var(--muted);margin-top:12px}
+.btn{padding:10px 14px;background:var(--accent);color:#021019;border:0;border-radius:8px;cursor:pointer}
+.toggle{display:flex;gap:10px;align-items:center;margin-top:12px}
+.note{margin-top:12px;color:#ffcc00}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <h2>Instructions — Midterm Mathematics</h2>
+    <p class="rules">Please read carefully before starting the exam. The timer cannot be paused. Make sure your internet connection is stable.</p>
+
+    <ul class="rules">
+      <li>Duration: <strong>60 minutes</strong></li>
+      <li>Total marks: <strong>100</strong></li>
+      <li>Type: Multiple choice questions (MCQ)</li>
+      <li>Attempting more than once is not allowed</li>
+    </ul>
+
+    <div class="toggle">
+      <label style="color:var(--muted)">Enable camera proctoring</label>
+      <input type="checkbox" />
+    </div>
+
+    <p class="note">Note: Camera proctoring is simulated in this demo UI. Real proctoring requires backend & permissions.</p>
+
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="btn" onclick="location='take_quiz.html'">Start Quiz</button>
+      <button class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)" onclick="location='student_quizzes.html'">Cancel</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

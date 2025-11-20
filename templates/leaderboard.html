@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard — OES{% endblock %}
+
+{% block content %}
+<h2>Leaderboard</h2>
+
+<!-- Filter -->
+<form method="get">
+    <label>Select Quiz:</label>
+    <select name="quiz_id">
+        <option value="">All Quizzes</option>
+        {% for q in quizzes %}
+        <option value="{{ q[0] }}" {% if selected_quiz == q[0] %}selected{% endif %}>
+            {{ q[1] }} ({{ q[0] }})
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn">Filter</button>
+</form>
+
+<!-- SHOW STATS IF QUIZ SELECTED -->
+{% if selected_quiz %}
+    {% if quiz_stats %}
+    <div class="stats-box">
+        <h3>Quiz Statistics</h3>
+        <p><strong>Total Submissions:</strong> {{ quiz_stats.total_submissions }}</p>
+        <p><strong>Average Score:</strong> {{ quiz_stats.avg_score }}</p>
+        <p><strong>Highest Score:</strong> {{ quiz_stats.max_score }}</p>
+        <p><strong>Lowest Score:</strong> {{ quiz_stats.min_score }}</p>
+        <p><strong>Students Attempted:</strong> {{ quiz_stats.students_attempted }}</p>
+    </div>
+    {% endif %}
+
+    {% if quiz_avg %}
+    <div class="stats-box">
+        <h3>Average Summary</h3>
+        <p><strong>Average Score:</strong> {{ quiz_avg.avg_score }}</p>
+        <p><strong>Total Submissions:</strong> {{ quiz_avg.submissions }}</p>
+    </div>
+    {% endif %}
+{% endif %}
+
+<!-- LEADERBOARD TABLE -->
+<table class="table">
+    <tr>
+        <th>Student</th>
+        <th>Quiz</th>
+        <th>Score</th>
+        <th>Remark</th>
+    </tr>
+
+    {% for row in leaderboard %}
+    <tr>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[5] if selected_quiz else row[5] }}</td>
+        <td>{{ row[3] }}</td>
+        <td>{{ row[4] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<style>
+.stats-box {
+    padding: 15px; background: #f3f3f3; border-radius: 10px;
+    margin: 20px 0; border: 1px solid #ddd;
+}
+.table { width: 100%; border-collapse: collapse; margin-top: 25px; }
+.table th, .table td { border: 1px solid #ccc; padding: 10px; }
+</style>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Home — OES{% endblock %}
+
+{% block content %}
+<style>
+    .mmp-immersive-bg {
+        position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;
+    }
+    .mmp-immersive-content {
+        position:absolute;top:0;left:0;width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+        animation: fadeIn 2s cubic-bezier(.77,0,.18,1);
+    }
+    @keyframes fadeIn {
+        from { opacity:0; transform:translateY(40px); }
+        to { opacity:1; transform:none; }
+    }
+</style>
+
+<div class="mmp-immersive-content">
+    <h1 style="font-size:6vw;font-weight:900;letter-spacing:2px;text-align:center;line-height:1.1;margin-bottom:2vw;text-shadow:0 4px 32px #000;">
+        Online Exam System
+    </h1>
+    <p style="font-size:2vw;color:#bbb;text-align:center;max-width:700px;margin-bottom:3vw;">
+        Create quizzes, manage questions, and view student performance — all in one immersive experience.
+    </p>
+    <!-- Removed extra pills/buttons -->
+    <div style="display:flex;gap:2vw;">
+        <a href="{{ url_for('signup') }}" class="btn" style="font-size:2vw;">Get Started</a>
+        <a href="{{ url_for('login') }}" class="btn ghost" style="font-size:2vw;">Login</a>
+    </div>
+</div>
+
+<script>
+    // Hide nav bar only on homepage
+    document.addEventListener('DOMContentLoaded', function() {
+        var nav = document.querySelector('nav');
+        if(nav) nav.style.display = 'none';
+    });
+</script>
+{% endblock %}

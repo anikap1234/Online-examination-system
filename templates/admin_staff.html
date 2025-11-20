@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Admin — Staff</title>
+<style>
+:root{--bg:#04060a;--card:#0f1724;--muted:#9aa6b2;--accent:#6f42c1}
+body{margin:0;font-family:Inter,Arial;background:var(--bg);color:#e6f7ff}
+.container{max-width:1100px;margin:24px auto;padding:18px}
+.card{background:#0f1724;padding:16px;border-radius:12px}
+.table{width:100%;border-collapse:collapse;margin-top:12px}
+.table th, .table td{padding:10px;border-top:1px solid rgba(255,255,255,0.03);text-align:left}
+.btn{padding:6px 8px;border-radius:6px;background:var(--accent);border:0;color:#021019;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <h3>Manage Staff</h3>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input placeholder="Search staff..." style="flex:1;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:#e6f7ff"/>
+      <button class="btn" onclick="alert('Add staff (demo)')">Add Staff</button>
+    </div>
+
+    <table class="table">
+      <thead><tr><th>ID</th><th>Name</th><th>Role</th><th>Active</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td>T2025CS01</td><td>Dr. Mehta</td><td>Professor</td><td>Yes</td><td><button class="btn">Edit</button></td></tr>
+        <tr><td>T2025IT02</td><td>Ms. Rao</td><td>Lecturer</td><td>Yes</td><td><button class="btn">Edit</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
