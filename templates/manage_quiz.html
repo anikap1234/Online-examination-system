@@ -4,56 +4,39 @@
 {% block content %}
 <h2>{{ quiz_name }} ({{ quiz_id }})</h2>
 
-<!-- STATISTICS PANEL -->
-{% if quiz_stats %}
-<div class="stats-box">
-    <h3>Quiz Statistics</h3>
-    <p><strong>Total Submissions:</strong> {{ quiz_stats.total_submissions }}</p>
-    <p><strong>Average Score:</strong> {{ quiz_stats.avg_score }}</p>
-    <p><strong>Highest Score:</strong> {{ quiz_stats.max_score }}</p>
-    <p><strong>Lowest Score:</strong> {{ quiz_stats.min_score }}</p>
-    <p><strong>Students Attempted:</strong> {{ quiz_stats.students_attempted }}</p>
-</div>
-{% endif %}
-
-{% if quiz_avg %}
-<div class="stats-box">
-    <h3>Average Summary</h3>
-    <p><strong>Average Score:</strong> {{ quiz_avg.avg_score }}</p>
-    <p><strong>Total Submissions:</strong> {{ quiz_avg.submissions }}</p>
-</div>
-{% endif %}
-
-<!-- QUESTIONS -->
 <h3>Questions</h3>
 <a href="{{ url_for('add_question', quiz_id=quiz_id) }}" class="btn">Add Question</a>
 
 {% if questions %}
 <table class="table">
     <tr>
-        <th>Question</th><th>Options</th><th>Answer</th><th>Marks</th><th>Actions</th>
+        <th>Question</th>
+        <th>Options</th>
+        <th>Answer</th>
+        <th>Marks</th>
+        <th>Actions</th>
     </tr>
+
     {% for q in questions %}
     <tr>
-        <td>{{ q[0] }}</td>
+        <!-- q structure = (QID, Question, O1, O2, O3, O4, Answer, Marks) -->
+        <td>{{ q[1] }}</td>
         <td>
-            {{ q[1] }}<br>
             {{ q[2] }}<br>
             {{ q[3] }}<br>
-            {{ q[4] }}
+            {{ q[4] }}<br>
+            {{ q[5] }}
         </td>
-        <td>{{ q[5] }}</td>
         <td>{{ q[6] }}</td>
-        <td>
-            <!-- Edit -->
-            <form action="{{ url_for('edit_question', quiz_id=quiz_id) }}" method="POST">
-                <input type="hidden" name="orig_q" value="{{ q[0] }}">
-                <button class="btn-small">Edit</button>
-            </form>
+        <td>{{ q[7] }}</td>
 
-            <!-- Delete -->
-            <form action="{{ url_for('delete_question', quiz_id=quiz_id) }}" method="POST">
-                <input type="hidden" name="qtext" value="{{ q[0] }}">
+        <td style="width:150px;">
+            <!-- EDIT -->
+            <a href="{{ url_for('edit_question_form', quiz_id=quiz_id, qid=q[0]) }}"class="btn-small">Edit</a>
+
+            <!-- DELETE -->
+            <form action="{{ url_for('delete_question', quiz_id=quiz_id, qid=q[0]) }}"
+                  method="POST" style="display:inline;">
                 <button class="btn-small danger">Delete</button>
             </form>
         </td>
@@ -71,7 +54,7 @@
 }
 .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
 .table th, .table td { border: 1px solid #ddd; padding: 12px; }
-.btn-small { padding: 7px 12px; margin: 5px 0; }
+.btn-small { padding: 7px 12px; display:inline-block; }
 .danger { background: #d9534f; color: white; }
 </style>
 

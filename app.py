@@ -1,4 +1,5 @@
 import os
+from turtle import st
 from flask import Flask, render_template, request, redirect, session, url_for, flash, abort
 from config import get_db
 import mysql.connector
@@ -159,6 +160,7 @@ def signup():
             db.close()
 
     return render_template("signup.html", msg=msg)
+
 
 # ============================
 # LOGIN
@@ -569,9 +571,11 @@ def manage_quiz(quiz_id):
         quiz_name = row[1]
 
         cursor.execute("""
-            SELECT Question, Option1, Option2, Option3, Option4, Answer, Marks
-            FROM QUESTIONS WHERE Quiz_ID=%s AND Staff_ID=%s
+            SELECT QID, Question, Option1, Option2, Option3, Option4, Answer, Marks
+            FROM QUESTIONS
+            WHERE Quiz_ID=%s AND Staff_ID=%s
         """, (quiz_id, staff))
+
         questions = cursor.fetchall()
 
         # calculate_quiz_average stored procedure (avg & count)
@@ -699,15 +703,37 @@ def create_quiz():
 # ============================
 # EDIT QUESTION
 # ============================
-@app.route("/staff/edit_question/<quiz_id>", methods=["POST"])
-def edit_question(quiz_id):
+@app.route("/staff/edit_question/<quiz_id>/<int:qid>")
+def edit_question_form(quiz_id, qid):
+    print("DEBUG ROUTE HIT:", quiz_id, qid)  # <-- Add this temporarily
     if session.get("role") != "staff":
         return redirect(url_for("login"))
 
     staff = session["user_id"]
 
-    orig_q = request.form.get("orig_q")
-    new_q = request.form.get("q")
+    db = get_db()
+    cursor = db.cursor(buffered=True)
+
+    cursor.execute("""
+        SELECT QID, Question, Option1, Option2, Option3, Option4, Answer, Marks
+        FROM QUESTIONS
+        WHERE QID=%s AND Quiz_ID=%s AND Staff_ID=%s
+    """, (qid, quiz_id, staff))
+
+    q = cursor.fetchone()
+    cursor.close()
+    db.close()
+
+    return render_template("edit_question.html", quiz_id=quiz_id, q=q)
+
+@app.route("/staff/edit_question/<quiz_id>/<int:qid>", methods=["POST"])
+def edit_question(quiz_id, qid):
+    if session.get("role") != "staff":
+        return redirect(url_for("login"))
+
+    staff = session["user_id"]
+
+    q = request.form.get("q")
     o1 = request.form.get("o1")
     o2 = request.form.get("o2")
     o3 = request.form.get("o3")
@@ -718,48 +744,43 @@ def edit_question(quiz_id):
     db = get_db()
     cursor = db.cursor(buffered=True)
 
-    cursor.execute("DELETE FROM QUESTIONS WHERE Quiz_ID=%s AND Question=%s AND Staff_ID=%s",
-                   (quiz_id, orig_q, staff))
-
     cursor.execute("""
-        INSERT INTO QUESTIONS
-        (Question, Staff_ID, Option1, Option2, Option3, Option4,
-         Answer, Quiz_ID, Marks)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
-    """, (new_q, staff, o1, o2, o3, o4, ans, quiz_id, marks))
+        UPDATE QUESTIONS
+        SET Question=%s, Option1=%s, Option2=%s, Option3=%s, Option4=%s,
+            Answer=%s, Marks=%s
+        WHERE QID=%s AND Quiz_ID=%s AND Staff_ID=%s
+    """, (q, o1, o2, o3, o4, ans, marks, qid, quiz_id, staff))
 
     db.commit()
-    recalculate_scores(quiz_id)
-
     cursor.close()
     db.close()
 
+    flash("Question updated!", "success")
     return redirect(url_for("manage_quiz", quiz_id=quiz_id))
-
 
 # ============================
 # DELETE QUESTION
 # ============================
-@app.route("/staff/delete_question/<quiz_id>", methods=["POST"])
-def delete_question(quiz_id):
+@app.route("/staff/delete_question/<quiz_id>/<int:qid>", methods=["POST"])
+def delete_question(quiz_id, qid):
     if session.get("role") != "staff":
         return redirect(url_for("login"))
 
-    staff = session["user_id"]
-    qtext = request.form.get("qtext")
-
+    st = session["user_id"]
     db = get_db()
     cursor = db.cursor(buffered=True)
 
-    cursor.execute("DELETE FROM QUESTIONS WHERE Quiz_ID=%s AND Question=%s AND Staff_ID=%s",
-                   (quiz_id, qtext, staff))
-    db.commit()
+    cursor.execute("""
+        DELETE FROM QUESTIONS
+        WHERE Question_ID=%s AND Quiz_ID=%s AND Staff_ID=%s
+    """, (qid, quiz_id, st))
 
+    db.commit()
     cursor.close()
     db.close()
 
+    flash("Question deleted!", "success")
     return redirect(url_for("manage_quiz", quiz_id=quiz_id))
-
 
 # ============================
 # DELETE QUIZ

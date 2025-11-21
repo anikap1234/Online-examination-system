@@ -110,7 +110,9 @@ INSERT INTO QUIZ VALUES
 -- ===========================================
 -- QUESTIONS TABLE (WITH MARKS)
 -- ===========================================
+
 CREATE TABLE QUESTIONS (
+  Question_ID INT AUTO_INCREMENT,
   Question VARCHAR(500) NOT NULL,
   Staff_ID VARCHAR(20) NOT NULL,
   Option1 VARCHAR(200) NOT NULL,
@@ -120,18 +122,22 @@ CREATE TABLE QUESTIONS (
   Answer VARCHAR(200) NOT NULL,
   Quiz_ID VARCHAR(10) NOT NULL,
   Marks INT NOT NULL DEFAULT 1,
-  PRIMARY KEY (Quiz_ID, Question),
+
+  PRIMARY KEY (Question_ID),
+
+  UNIQUE KEY uq_question_unique (Quiz_ID, Question),
+
   FOREIGN KEY (Staff_ID) REFERENCES STAFF(Staff_ID),
   FOREIGN KEY (Quiz_ID) REFERENCES QUIZ(Quiz_ID)
 ) ENGINE=InnoDB;
 
-INSERT INTO QUESTIONS VALUES
-('What is the time complexity of binary search?', 'STF001','O(n)','O(log n)','O(n^2)','O(1)','O(log n)','UE23252',2),
-('Which data structure uses LIFO principle?', 'STF001','Queue','Stack','Tree','Graph','Stack','UE23252',1),
-('What does SQL stand for?', 'STF002','Structured Query Language','Simple Query Language','Standard Query Language','System Query Language','Structured Query Language','UE23242',2),
-('Which normal form eliminates transitive dependencies?', 'STF002','1NF','2NF','3NF','BCNF','3NF','UE23242',2),
-('What is polymorphism in OOP?', 'STF001','Data hiding','Multiple forms','Inheritance','Encapsulation','Multiple forms','UE23243',3);
 
+INSERT INTO QUESTIONS VALUES
+(1, 'What is the time complexity of binary search?', 'STF001','O(n)','O(log n)','O(n^2)','O(1)','O(log n)','UE23252',2),
+(2, 'Which data structure uses LIFO principle?', 'STF001','Queue','Stack','Tree','Graph','Stack','UE23252',1),
+(3, 'What does SQL stand for?', 'STF002','Structured Query Language','Simple Query Language','Standard Query Language','System Query Language','Structured Query Language','UE23242',2),
+(4, 'Which normal form eliminates transitive dependencies?', 'STF002','1NF','2NF','3NF','BCNF','3NF','UE23242',2),
+(5, 'What is polymorphism in OOP?', 'STF001','Data hiding','Multiple forms','Inheritance','Encapsulation','Multiple forms','UE23243',3);
 -- ===========================================
 -- TAKE TABLE
 -- ===========================================

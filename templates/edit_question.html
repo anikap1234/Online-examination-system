@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Edit Question{% endblock %}
+
+{% block content %}
+<h2>Edit Question</h2>
+
+<form method="POST" action="{{ url_for('edit_question', quiz_id=quiz_id, qid=q[0]) }}" class="edit-form">
+
+    <label>Question:</label>
+    <input type="text" name="q" value="{{ q[1] }}" required>
+
+    <label>Option 1:</label>
+    <input type="text" name="o1" value="{{ q[2] }}" required>
+
+    <label>Option 2:</label>
+    <input type="text" name="o2" value="{{ q[3] }}" required>
+
+    <label>Option 3:</label>
+    <input type="text" name="o3" value="{{ q[4] }}" required>
+
+    <label>Option 4:</label>
+    <input type="text" name="o4" value="{{ q[5] }}" required>
+
+    <label>Answer:</label>
+    <input type="text" name="ans" value="{{ q[6] }}" required>
+
+    <label>Marks:</label>
+    <input type="number" name="marks" value="{{ q[7] }}" required>
+
+    <button type="submit" class="btn">Update</button>
+</form>
+
+<style>
+.edit-form input { 
+    width: 100%; padding: 8px; margin: 8px 0; 
+}
+</style>
+
+{% endblock %}
