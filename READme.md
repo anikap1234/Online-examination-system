@@ -154,16 +154,5 @@ Key template files:
 - Keep changes focused and open a pull request with a clear description of what you changed and why.
 - Add tests for any new functionality where applicable.
 
-**License**
-- This project is a student coursework example. Add a `LICENSE` file if you want to open-source it (MIT/Apache recommended for permissive licensing).
-
-**Contact / Support**
-- For questions about the project structure or running the app, open an issue in your repo or contact the project author.
-
 ---
 
-If you want, I can:
-- update `config.py` with comments and examples,
-- add a short `run_local.ps1` PowerShell script to automate setup,
-- or create a minimal `README.md` screenshot and route map for easier onboarding.
-Tell me which you'd like next.
