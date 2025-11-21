@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Manage Quiz — OES{% endblock %}
+
+{% block content %}
+<h2>{{ quiz_name }} ({{ quiz_id }})</h2>
+
+<h3>Questions</h3>
+<a href="{{ url_for('add_question', quiz_id=quiz_id) }}" class="btn">Add Question</a>
+
+{% if questions %}
+<table class="table">
+    <tr>
+        <th>Question</th>
+        <th>Options</th>
+        <th>Answer</th>
+        <th>Marks</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for q in questions %}
+    <tr>
+        <!-- q structure = (QID, Question, O1, O2, O3, O4, Answer, Marks) -->
+        <td>{{ q[1] }}</td>
+        <td>
+            {{ q[2] }}<br>
+            {{ q[3] }}<br>
+            {{ q[4] }}<br>
+            {{ q[5] }}
+        </td>
+        <td>{{ q[6] }}</td>
+        <td>{{ q[7] }}</td>
+
+        <td style="width:150px;">
+            <!-- EDIT -->
+            <a href="{{ url_for('edit_question_form', quiz_id=quiz_id, qid=q[0]) }}"class="btn-small">Edit</a>
+
+            <!-- DELETE -->
+            <form action="{{ url_for('delete_question', quiz_id=quiz_id, qid=q[0]) }}"
+                  method="POST" style="display:inline;">
+                <button class="btn-small danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No questions yet.</p>
+{% endif %}
+
+<style>
+.stats-box {
+    padding: 15px; background: #f8f8f8; border-radius: 10px;
+    margin-bottom: 20px; border: 1px solid #ddd;
+}
+.table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.table th, .table td { border: 1px solid #ddd; padding: 12px; }
+.btn-small { padding: 7px 12px; display:inline-block; }
+.danger { background: #d9534f; color: white; }
+</style>
+
+{% endblock %}

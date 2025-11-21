@@ -1,0 +1,23 @@
+<!-- stu_profile.html content -->
+ {% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div style="max-width:900px;margin:0 auto">
+  <div class="card" style="display:flex;gap:18px;align-items:center">
+    <div style="width:84px;height:84px;border-radius:12px;background:linear-gradient(135deg,#7b61ff,#5ee0ff);display:flex;align-items:center;justify-content:center;color:#021019;font-weight:800">AS</div>
+    <div style="flex:1">
+      <h3>{{ student_name if student_name else 'Student Name' }}</h3>
+      <p class="muted">ID: {{ session.user_id if session.user_id else '-' }}</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <h4>Account Settings</h4>
+    <form onsubmit="alert('Saved (demo)');return false;">
+      <label>Full name</label><input value="{{ student_name if student_name else '' }}"/>
+      <label>Email</label><input value="{{ email if email else '' }}"/>
+      <div style="margin-top:10px"><button class="btn" type="submit">Save Changes</button></div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Sign up — OES{% endblock %}
+
+{% block content %}
+<div class="grid">
+  <div class="span-8">
+    <div class="card">
+      <h2>Create an account</h2>
+      <p class="muted">Choose role and fill the details. IDs must match the college format.</p>
+
+      <form method="POST" action="{{ url_for('signup') }}">
+
+        <!-- Role Selection -->
+        <label>Role</label>
+        <select name="role" id="roleSelect" onchange="onRoleChange()" required>
+          <option value="student">Student</option>
+          <option value="staff">Staff</option>
+        </select>
+
+        <!-- STUDENT SECTION -->
+        <div id="studentFields" class="form-section">
+          <label>Student ID</label>
+          <input type="text" name="student_id" placeholder="e.g. 1CS21CS001" required>
+
+          <label style="margin-top:10px">Name</label>
+          <input type="text" name="student_name" required>
+
+          <label style="margin-top:10px">Email</label>
+          <input type="email" name="student_email" required>
+
+          <label style="margin-top:10px">Department (Dept ID)</label>
+          <input type="text" name="student_dept" placeholder="e.g. CSE" required>
+        </div>
+
+        <!-- STAFF SECTION -->
+        <div id="staffFields" class="form-section" style="display:none;">
+          <label>Staff ID</label>
+          <input type="text" name="staff_id" placeholder="e.g. STF005">
+
+          <label style="margin-top:10px">Name</label>
+          <input type="text" name="staff_name">
+
+          <label style="margin-top:10px">Email</label>
+          <input type="email" name="staff_email">
+
+          <label style="margin-top:10px">Department (Dept ID)</label>
+          <input type="text" name="staff_dept" placeholder="e.g. CSE">
+        </div>
+
+        <!-- PASSWORD -->
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <div class="actions">
+          <button class="btn" type="submit">Register</button>
+          <a class="btn ghost" href="{{ url_for('login') }}">Back to Login</a>
+        </div>
+
+        {% if msg %}
+          <div class="form-error">{{ msg }}</div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  <div class="span-4">
+    <div class="card">
+      <h3>Registration notes</h3>
+      <p class="muted">Use official department IDs: CSE, ISE, ECE, EEE, ME.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FIX: Disable hidden fields so they don't send empty values -->
+<script>
+function onRoleChange(){
+  const role = document.getElementById('roleSelect').value;
+
+  const sF = document.getElementById('studentFields');
+  const tF = document.getElementById('staffFields');
+
+  // Show correct section
+  sF.style.display = role === 'student' ? "block" : "none";
+  tF.style.display = role === 'staff' ? "block" : "none";
+
+  // Enable/disable inputs
+  sF.querySelectorAll("input").forEach(i => i.disabled = (role !== "student"));
+  tF.querySelectorAll("input").forEach(i => i.disabled = (role !== "staff"));
+}
+
+// Initialize correctly on first load
+onRoleChange();
+</script>
+
+{% endblock %}

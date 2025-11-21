@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Staff Dashboard{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:20px;">
+    <h2>Hi, {{ staff }}</h2>
+    <p class="muted">Department: {{ dept_name }}</p>
+
+    <!-- Top Action Buttons -->
+    <div style="display:flex; gap:16px; margin-top:20px; flex-wrap:wrap;">
+
+        <!-- Create Quiz Button -->
+        <a href="{{ url_for('create_quiz') }}"
+           class="btn"
+           style="padding:12px 22px; font-size:15px; border-radius:10px;">
+           Create Quiz
+        </a>
+
+        <!-- Leaderboard Button -->
+        <a href="{{ url_for('leaderboard') }}"
+           class="btn ghost"
+           style="padding:12px 22px; font-size:15px; border-radius:10px;">
+           Leaderboard
+        </a>
+
+    </div>
+</div>
+
+
+<!-- QUIZ LIST -->
+<div class="card">
+    <h3>Your quizzes</h3>
+
+    {% if quizzes %}
+    <table class="table" style="margin-top:16px;">
+        <thead>
+            <tr>
+                <th>Quiz ID</th>
+                <th>Quiz Name</th>
+                <th>Date</th>
+                <th style="text-align:right;">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for q in quizzes %}
+            <tr>
+                <td>{{ q[0] }}</td>
+                <td>{{ q[1] }}</td>
+                <td>{{ q[2] }}</td>
+
+                <td style="text-align:right; white-space:nowrap;">
+
+                    <!-- Manage Button -->
+                    <a href="{{ url_for('manage_quiz', quiz_id=q[0]) }}"
+                       class="btn ghost"
+                       style="padding:8px 16px; margin-right:8px;">
+                       Manage
+                    </a>
+
+                    <!-- Scores Button -->
+                    <a href="{{ url_for('staff_scores', quiz_id=q[0]) }}"
+                       class="btn"
+                       style="padding:8px 16px;">
+                       Scores
+                    </a>
+
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+        <p class="muted" style="margin-top:10px;">You have not created any quizzes yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

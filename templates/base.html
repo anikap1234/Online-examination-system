@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{% block title %}Online Exam System{% endblock %}</title>
+    <link rel="icon" href="data:;base64,=">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+      :root{
+        --bg:#f6f7fb;
+        --surface:#ffffff;
+        --muted:#6b7280;
+        --text:#0f1724;
+        --accent:#2563eb;
+        --radius:10px;
+        --maxw:1100px;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%;margin:0}
+      body{
+        font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        background:var(--bg);
+        color:var(--text);
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        line-height:1.45;
+      }
+      .site{display:flex;flex-direction:column;min-height:100vh}
+
+      /* Header */
+      header{background:transparent;padding:20px 16px}
+      .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+      .brand{display:flex;align-items:center;gap:12px}
+      .brand-logo{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#4f46e5);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+      .brand-title{font-weight:700;font-size:16px}
+      nav a{color:var(--text);text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600}
+      nav a.cta{background:var(--accent);color:#fff}
+      nav a.ghost{background:transparent;border:1px solid transparent}
+
+      /* Container */
+      main{flex:1;display:block;padding:40px 16px}
+      .container{max-width:var(--maxw);margin:0 auto}
+
+      /* Cards and content */
+      .card{background:var(--surface);border-radius:var(--radius);box-shadow:0 6px 18px rgba(15,23,36,0.06);padding:28px;margin-bottom:20px}
+      h1,h2,h3{margin:0 0 12px 0}
+      p{margin:0 0 12px 0;color:var(--muted)}
+
+      /* Forms */
+      label{display:block;font-weight:600;color:var(--text);font-size:14px;margin-bottom:6px}
+      input[type=text],input[type=password],input[type=email],select,textarea{width:100%;padding:12px 14px;border:1px solid #e6e9ef;border-radius:8px;background:transparent;font-size:15px}
+      .form-row{margin-bottom:14px}
+      .actions{display:flex;gap:12px;flex-wrap:wrap}
+
+      /* Tables */
+      table{width:100%;border-collapse:collapse}
+      th,td{padding:12px 10px;text-align:left;border-bottom:1px solid #f1f5f9}
+
+      footer{max-width:var(--maxw);margin:24px auto 40px;color:var(--muted);font-size:13px;text-align:center}
+
+      @media (max-width:720px){
+        .nav{padding:0 6px}
+        .brand-title{font-size:14px}
+        .card{padding:18px}
+      }
+    </style>
+
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <div class="site">
+      <header>
+        <div class="nav">
+          <div class="brand">
+            <div class="brand-logo">O</div>
+            <div>
+              <div class="brand-title">Online Exam System</div>
+              <div style="font-size:12px;color:var(--muted)">Simple • Clean • Focused</div>
+            </div>
+          </div>
+
+          <nav>
+            {% if logged_in %}
+              {% if role == 'student' %}
+                <a href="{{ url_for('student_dashboard') }}">Dashboard</a>
+              {% elif role == 'staff' %}
+                <a href="{{ url_for('staff_dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('create_quiz') }}">Create Quiz</a>
+              {% endif %}
+              <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+              <a href="{{ url_for('logout') }}" class="cta">Logout</a>
+            {% else %}
+              <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+              <a href="{{ url_for('login') }}" class="ghost">Login</a>
+              <a href="{{ url_for('signup') }}" class="cta">Sign up</a>
+            {% endif %}
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <div class="container">
+          {% block content %}{% endblock %}
+        </div>
+      </main>
+
+      <footer>
+        &copy; {{ current_year if current_year is defined else "" }} Online Exam System — Built for clarity.
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Quiz Management{% endblock %}
+{% block content %}
+<div class="grid">
+  <div>
+    <div class="card">
+      <h3>Quiz Statistics</h3>
+      <form method="POST" action="{{ url_for('quiz_stats') }}">
+        <label>Quiz ID</label><input type="text" name="quiz_id" required/>
+        <div style="margin-top:10px"><button class="btn" type="submit">Get Stats</button></div>
+      </form>
+
+      {% if quiz_stats %}
+        <table style="margin-top:12px">
+          <thead><tr><th>Quiz</th><th>Attempts</th><th>Avg</th><th>Max</th><th>Min</th><th>Assigned</th></tr></thead>
+          <tbody>
+            {% for s in quiz_stats %}
+              <tr><td>{{ s[0] }}</td><td>{{ s[1] }}</td><td>{{ s[2] }}</td><td>{{ s[3] }}</td><td>{{ s[4] }}</td><td>{{ s[5] }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+
+      {% if quiz_avg %}
+        <h4 style="margin-top:12px">Average Summary</h4>
+        <table>
+          <thead><tr><th>Quiz</th><th>Average Score</th><th>Student Count</th></tr></thead>
+          <tbody>
+            {% for row in quiz_avg %}
+              <tr><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <h3>Assign Quiz to Student</h3>
+      <form method="POST" action="{{ url_for('assign_quiz') }}">
+        <label>Student ID</label><input type="text" name="student_id" required/>
+        <label>Quiz ID</label><input type="text" name="quiz_id" required/>
+        <div style="margin-top:10px"><button class="btn" type="submit">Assign</button></div>
+      </form>
+
+      {% if assign_msg %}
+        <p style="margin-top:8px;color:#5ee0ff">{{ assign_msg }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <aside>
+    <div class="card">
+      <h4>Tips</h4>
+      <p class="muted">Use exact Quiz IDs. Assigned quizzes will be added to TAKE table by stored procedure or by trigger on SCORE insert.</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<div class="card center" style="max-width:900px;margin:auto">
+  <h2>Results</h2>
+
+  {% if scores %}
+    <table class="table">
+      <thead>
+        <tr><th>Quiz</th><th>Student</th><th>Score</th><th>Remark</th><th>Grade</th></tr>
+      </thead>
+      <tbody>
+      {% for r in scores %}
+        {# If called from student_result proc rows might be: Quiz_ID, Quiz_name, Score, Remark, Staff_ID #}
+        {% if r|length >= 6 %}
+          <tr>
+            <td>{{ r[1] }}</td><td>{{ r[2] if r[2] else r[0] }}</td><td>{{ r[3] }}</td><td class="muted">{{ r[4] }}</td><td>{{ r[5] }}</td>
+          </tr>
+        {% else %}
+          <tr>
+            <td>{{ r[0] }}</td><td class="muted">—</td><td>{{ r[1] }}</td><td class="muted">{{ r[2] }}</td><td>{{ r[3] }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="muted">No results to show.</p>
+  {% endif %}
+
+  <div class="actions" style="margin-top:12px">
+    <a class="btn ghost" href="{{ url_for('home') }}">Home</a>
+  </div>
+</div>
+{% endblock %}

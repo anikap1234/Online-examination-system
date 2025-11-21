@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="grid">
+  <div class="span-8">
+    <div class="card">
+      <h2>Welcome, {{ student_name }}</h2>
+      <p class="muted">{{ email }} • {{ dept_name }}</p>
+      <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
+        <div class="card" style="padding:12px;">
+          <div class="muted">Average Score</div>
+          <h3 style="margin-top:6px">{{ avg_score or 0 }}</h3>
+        </div>
+        <div class="card" style="padding:12px;">
+          <div class="muted">Quizzes Taken</div>
+          <h3 style="margin-top:6px">{{ total_taken or 0 }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+
+    <div class="card">
+      <h3>Available quizzes</h3>
+      {% if quizzes %}
+        <table class="table" style="margin-top:12px">
+          <thead><tr><th>Quiz</th><th>Instructor</th><th></th></tr></thead>
+          <tbody>
+            {% for q in quizzes %}
+              <tr>
+                <td>{{ q[1] }}</td>
+                <td class="muted">{{ q[2] }}</td>
+                <td class="right">
+
+                  {% if d_taken.get(q[0]) %}
+                    <!-- Quiz Already Taken -->
+                    <button class="btn ghost" onclick="alert('You have already taken this test and cannot take it again.')" style="background:#333;color:#aaa;cursor:not-allowed;">
+                      Taken
+                    </button>
+                  {% else %}
+                    <!-- Take Quiz Normally -->
+                    <a class="btn ghost" href="{{ url_for('take_quiz', quiz_id=q[0]) }}">Take</a>
+                  {% endif %}
+
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="muted" style="margin-top:8px">No quizzes available for your department yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="span-4">
+    <div class="card">
+      <h4>My quizzes</h4>
+      {% if quiz_details %}
+        <ul style="margin-top:8px">
+          {% for d in quiz_details %}
+            <li>{{ d[0] }} — {% if d[1] %}Score: {{ d[1] }} {% else %}<span class="muted">Not taken</span>{% endif %}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">No assigned quizzes yet.</p>
+      {% endif %}
+      <div style="margin-top:12px">
+        <a class="btn ghost" href="{{ url_for('student_result') }}">View all results</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

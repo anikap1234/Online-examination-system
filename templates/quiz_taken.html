@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Quiz Already Taken{% endblock %}
+{% block content %}
+<div style="max-width:600px;margin:20px auto">
+  <div class="card">
+    <h2>Quiz Already Attempted</h2>
+    <p class="muted">You have already submitted this quiz ({{ quiz_id }}). You cannot attempt it again.</p>
+
+    <div style="display:flex;gap:12px;margin-top:12px">
+      <a class="btn" href="{{ url_for('student_result') }}">View My Results</a>
+      <a class="btn-ghost" href="{{ url_for('student_dashboard') }}">Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
